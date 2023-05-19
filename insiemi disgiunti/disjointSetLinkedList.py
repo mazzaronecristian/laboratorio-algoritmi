@@ -5,7 +5,7 @@ class Node:
         self.next = None
         self.size = 1
 
-class DisjointSetLL:
+class DisjointSetLinkedList:
     def __init__(self):
         self.nodes = {}
 
