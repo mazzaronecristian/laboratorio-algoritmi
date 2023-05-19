@@ -6,40 +6,62 @@ import disjointSetForest as dsf
 import disjointSetLinkedList as dsl
 
 def test_union_performance():
-    disjoiont_set_forest = dsf.DisjointSetForest()
+    disjoiont_set_euristic = dsl.DisjointSetLinkedList()
     disjoint_set_linked_list = dsl.DisjointSetLinkedList()
 
-    sizes = [100, 1000, 10000, 100000]  # Dimensioni degli insiemi da testare
+    sizes = [10, 20, 50, 100, 200, 1000, 5000, 10000]  # Dimensioni degli insiemi da testare
     list_times = []
-    forest_times = []
+    euristic_list_times = []
 
-    for size in sizes:
-        data = list(range(size))
+    for i in range(len(sizes)):
+        list_times.append(0)
+        euristic_list_times.append(0)
+        for z in range(10):
+            list_time, euristic_list_time = test_body(disjoint_set_linked_list, disjoiont_set_euristic, sizes[i])
+            list_times[i] += list_time
+            euristic_list_times[i] += euristic_list_time
+        list_times[i] /= 10
+        euristic_list_times[i] /= 10
 
-        rand.shuffle(data)
+    plot_results(sizes, [list_times, euristic_list_times], ["Linked list", "Euristic linked list"])
 
-        for value in data:
-            disjoint_set_linked_list.make_set(value)
-            disjoiont_set_forest.make_set(value)
-        
-        #* unione senza euristica insiemi disgiunti con liste concatenate
-        start_time = time.time()
-        for i in range(size - 1):
-            disjoint_set_linked_list.union(data[i], data[i + 1])
-        end_time = time.time()
+def test_body(disjoint_set_linked_list, disjoiont_set_euristic, size):
+    data = list(range(size))
 
-        list_times.append(end_time - start_time)
+    rand.shuffle(data)
 
-        #* unione senza euristica insiemi disgiunti con foreste
-        start_time = time.time()
-        for i in range(size - 1):
-            disjoiont_set_forest.union(data[i], data[i + 1])
-        end_time = time.time()
+    for value in data:
+        disjoint_set_linked_list.make_set(value)
+        disjoiont_set_euristic.make_set(value)
 
-        forest_times.append(end_time - start_time)
+    #* unione senza euristica insiemi disgiunti con liste concatenate
+    print("unione non euristica in corso...")
+    start_time = time.time()
+    for i in range(size-1):
+        random_index1 = rand.randint(i+1, size-1)
+        random_index2 = rand.randint(i+1, size-1)
+        disjoint_set_linked_list.union(data[random_index1], data[random_index2])
+    end_time = time.time()
+    list_time = end_time - start_time
 
-        # crea un grafico con pyplot per visualizzare i tempi di esecuzione all'interno di list_times e forest_times, aggiungi una legenda
-        plt.plot(sizes, list_times, label="List")
-        plt.plot(sizes, forest_times, label="Forest")
+    #* unione con euristica insiemi disgiunti con liste concatenate
+    print("unione euristica in corso...")
+    start_time = time.time()
+    for i in range(size-1):
+        random_index1 = rand.randint(i+1, size-1)
+        random_index2 = rand.randint(i+1, size-1)
+        disjoiont_set_euristic.euristic_union(data[random_index1], data[random_index2])
+    end_time = time.time()
+    euristic_list_time = end_time - start_time
+
+    return list_time, euristic_list_time
+
+def plot_results(x, y, labels):
+    for i in range(len(y)):
+        plt.plot(x, y[i], label=labels[i])
+    plt.xlabel('n')
+    plt.ylabel('time (s)')
+    plt.legend()
+    plt.show()
 
 test_union_performance()

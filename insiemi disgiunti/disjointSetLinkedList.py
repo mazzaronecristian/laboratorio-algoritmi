@@ -1,8 +1,9 @@
 class Node:
     def __init__(self, value):
         self.value = value
-        self.parent = self  # ogni nodo punta al rappresentate del proprio insieme disgiunto (inizialmente se stesso)
+        self.representative = self  # ogni nodo punta al rappresentate del proprio insieme disgiunto (inizialmente se stesso)
         self.next = None
+        self.last = self     # puntatore alla coda della lista
         self.size = 1
 
 class DisjointSetLinkedList:
@@ -19,25 +20,29 @@ class DisjointSetLinkedList:
             return None
         
         node = self.nodes[value]
-        return node.parent
+        return node.representative
 
-    # unisce gli insiemi disgiunti senza euristica    
-    def union(self, value1, value2):
+    #* unisce gli insiemi disgiunti senza euristica, concateno node1 a node2
+    def union(self, value1, value2):            
         node1 = self.find_set(value1)
         node2 = self.find_set(value2)
 
         if node1 is None or node2 is None or node1 == node2:
             return
-        
-        node2.parent = node1
-        node1.size += node2.size
-        node1.next = node2
 
-        while node2.next is not None:
-            node2 = node2.next
-            node2.parent = node1
+        last_node2 = node2
+        while last_node2.next is not None:
+            last_node2 = last_node2.next
+
+        last_node2.next = node1
         
-    # unisce gli insiemi disgiunti con euristica della size: la lista con size minore viene attaccata alla lista con size maggiore
+        current_node = node1
+        while current_node is not None:
+            current_node.representative = node2
+            current_node = current_node.next
+
+        node2.size += node1.size
+   
     def euristic_union(self, value1, value2):
         node1 = self.find_set(value1)
         node2 = self.find_set(value2)
@@ -46,6 +51,6 @@ class DisjointSetLinkedList:
             return
         
         if node1.size < node2.size:
-            self.union(value2, value1) 
+            self.union(value1, value2) 
         else:
-            self.union(value1, value2)
+            self.union(value2, value1)
