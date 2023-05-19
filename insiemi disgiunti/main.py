@@ -1,32 +1,24 @@
-import disjointSetLinkedList as dsll    # Import the disjoint set linked list module
-import disjointSetForest as dsf         # Import the disjoint set forest module
+import disjointSetTests
+import matplotlib.pyplot as plt
 
-# ds = dsll.DisjointSetLL()               # Create a new disjoint set linked list
+def plot_results(x, y, labels):
+    for i in range(len(y)):
+        plt.plot(x, y[i], label=labels[i])
+    plt.xlabel('n')
+    plt.ylabel('time (s)')
+    plt.legend()
+    plt.show()
 
-# ds.make_set(1)                          # Create a new set with value 1
-# ds.make_set(2)                          # Create a new set with value 2
-# ds.make_set(3)                          # Create a new set with value 3
+sizes = [10, 20, 50, 100, 200, 1000, 5000, 10000, 100000, 200000]           #* Dimensioni degli insiemi da testare
 
-# ds.union(1, 2)                          # Union the sets with values 1 and 2
-# ds.euristic_union(3, 2)                 # Union the sets with values 2 and 3
+#* unionTest.test_union_performance() testa le performance dell'operazione di unione degli insiemi 
+#* disgiunti implementati con liste concatenate (con e senza euristica dei pesi) e con le foreste (con e senza euristica dei pesi)
+#* ritorna una tre liste di tempi di esecuzione medi per ogni dimensione di insieme testata e per ogni implementazione
+#* di insieme disgiunto
 
-# print(ds.find_set(2).value)             # Find the representative of the set with value 1
+list_times = []
+euristic_list_times = []
 
-# print(ds.find_set(4))                   # Find the representative of the set with value 2
+times = disjointSetTests.test_union_performance( sizes )  
 
-dsf = dsf.DisjointSetForest()            # Create a new disjoint set forest
-
-# crea 10 insiemi disgiunti 
-for i in range(10):
-    dsf.make_set(i)                          # Create a new set with value i
-
-# unisci gli insieme disgiunti con valori 1 e 2 e 3 e 4 e 5 e 6 e 7 e 8 e 9
-dsf.union(1, 2)                          # Union the sets with values 1 and 2
-dsf.union(3, 4)                          # Union the sets with values 3 and 4
-dsf.union(5, 6)                          # Union the sets with values 5 and 6
-dsf.union(7, 8)                          # Union the sets with values 7 and 8
-
-dsf.union(1, 3)                          # Union the sets with values 1 and 3
-dsf.union(5, 2)                          # Union the sets with values 5 and 7
-
-print(dsf.find_set(1).value)             # Find the representative of the set with value 1
+plot_results( sizes, list( times.values() ), list( times.keys() ) )
