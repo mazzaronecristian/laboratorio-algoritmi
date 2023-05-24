@@ -62,7 +62,7 @@ def test_body( size):
         disjoiont_set_euristic.euristic_union(data[random_index1], data[random_index2])
     end_time = time.time()
     euristic_list_time = end_time - start_time
-
+    
     #* unione di insiemi disgiunti con foreste con riduzione dei cammini
     start_time = time.time()
     for i in range(size-1):
@@ -72,6 +72,6 @@ def test_body( size):
     end_time = time.time()
     forest_time = end_time - start_time
 
-    return list_time, euristic_list_time, forest_time
+    return list_time,euristic_list_time, forest_time
 
 
