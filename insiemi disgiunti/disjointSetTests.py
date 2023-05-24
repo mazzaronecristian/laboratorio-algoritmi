@@ -7,9 +7,6 @@ import disjointSetLinkedList as dsl
 
 
 def test_union_performance(sizes):
-    disjoiont_set_euristic = dsl.DisjointSetLinkedList()
-    disjoint_set_linked_list = dsl.DisjointSetLinkedList()
-    disjoint_set_forest = dsf.DisjointSetForest()
 
     list_times = []
     euristic_list_times = []
@@ -19,10 +16,9 @@ def test_union_performance(sizes):
         list_times.append(0)
         euristic_list_times.append(0)
         forest_times.append(0)
+        print("testing size: ", sizes[i])
         for z in range(10):
-            list_time, euristic_list_time, forest_time = test_body(disjoint_set_linked_list, 
-                                                                    disjoiont_set_euristic, 
-                                                                    disjoint_set_forest, sizes[i])
+            list_time, euristic_list_time, forest_time = test_body( sizes[i] )
             
             list_times[i] += list_time
             euristic_list_times[i] += euristic_list_time
@@ -34,7 +30,12 @@ def test_union_performance(sizes):
 
     return {"linked list": list_times, "euristic linked list": euristic_list_times, "disjoint forest": forest_times}
 
-def test_body(disjoint_set_linked_list, disjoiont_set_euristic, disjoint_set_forest, size):
+def test_body( size):
+
+    disjoiont_set_euristic = dsl.DisjointSetLinkedList()
+    disjoint_set_linked_list = dsl.DisjointSetLinkedList()
+    disjoint_set_forest = dsf.DisjointSetForest()
+
     data = list(range(size))
 
     rand.shuffle(data)
