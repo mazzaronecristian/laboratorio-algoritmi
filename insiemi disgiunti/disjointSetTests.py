@@ -2,11 +2,10 @@ import time
 import timeit
 import random as rand
 
-import disjointSetForest as dsf
-import disjointSetLinkedList as dsl
+#import disjointSetForest as dsf
+import disjointSet as ds
 
-
-def test_union_performance(sizes):
+def test_union_set_performance(sizes):
 
     list_times = []
     euristic_list_times = []
@@ -18,7 +17,7 @@ def test_union_performance(sizes):
         forest_times.append(0)
         print("testing size: ", sizes[i])
         for z in range(10):
-            list_time, euristic_list_time, forest_time = test_body( sizes[i] )
+            list_time, euristic_list_time, forest_time = union_set( sizes[i] )
             
             list_times[i] += list_time
             euristic_list_times[i] += euristic_list_time
@@ -30,11 +29,11 @@ def test_union_performance(sizes):
 
     return {"linked list": list_times, "euristic linked list": euristic_list_times, "disjoint forest": forest_times}
 
-def test_body( size):
+def union_set(size):
 
-    disjoiont_set_euristic = dsl.DisjointSetLinkedList()
-    disjoint_set_linked_list = dsl.DisjointSetLinkedList()
-    disjoint_set_forest = dsf.DisjointSetForest()
+    disjoiont_set_euristic = ds.DisjointSetLinkedList()
+    disjoint_set_linked_list = ds.DisjointSetLinkedList()
+    disjoint_set_forest = ds.DisjointSetForest()
 
     data = list(range(size))
 
@@ -75,3 +74,40 @@ def test_body( size):
     return list_time,euristic_list_time, forest_time
 
 
+def test_connected_components_performance(graphs):
+    
+    list_times = []
+    euristic_list_times = []
+    forest_times = []
+    
+    for graph in graphs:
+        disjoint_set = ds.DisjointSetLinkedList()
+        start_time = time.time()
+        connected_components(graph, disjoint_set)
+        end_time = time.time()
+
+        disjoint_set = ds.DisjointSetLinkedList()
+        start_time = time.time()
+        connected_components(graph, disjoint_set, True)
+        end_time = time.time()
+
+        disjoint_set = ds.DisjointSetForest()
+        start_time = time.time()
+        connected_components(graph, disjoint_set)
+        end_time = time.time()
+    
+    return {"linked list": list_times, "euristic linked list": euristic_list_times, "disjoint forest": forest_times}
+
+
+#* ritorna le componenti connesse di un grafo non orientato
+def connected_components(graph, disjoint_set, euristic=False):
+    for node in graph.nodes:
+        disjoint_set.make_set(node.value)
+    
+    for edge in graph.edges:
+        node1 = edge[0][0]
+        node2 = edge[0][1]  
+        if euristic:  
+            disjoint_set.euristic_union(node1.value, node2.value)
+        else:
+            disjoint_set.union(node1.value, node2.value)
