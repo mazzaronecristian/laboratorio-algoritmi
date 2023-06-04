@@ -1,4 +1,4 @@
-
+import node as nd
 #* Version: 1.0
 
 class DisjointSetForest:
@@ -7,7 +7,7 @@ class DisjointSetForest:
     
     def make_set(self, value):
         if value not in self.nodes:
-            node = Node(value)
+            node = nd.Node(value)
             self.nodes[value] = node
 
     #* trova il rappresentante dell'insieme disgiunto
@@ -44,7 +44,7 @@ class DisjointSetLinkedList:
         self.nodes = {}
 
     def make_set(self, value):
-        node = Node(value)
+        node = nd.Node(value)
         self.nodes[value] = node
 
     #* trova il rappresentante dell'insieme disgiunto
