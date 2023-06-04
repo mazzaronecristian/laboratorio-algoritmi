@@ -1,9 +1,13 @@
 import time
 import timeit
 import random as rand
-
-#import disjointSetForest as dsf
 import disjointSet as ds
+
+
+#* disjointSetTests.test_union_set_performance() testa le performance dell'operazione di unione degli insiemi 
+#* disgiunti implementati con liste concatenate (con e senza euristica dei pesi) e con le foreste con riduzione dei cammini;
+#* ritorna tre liste di tempi di esecuzione medi per ogni dimensione di insieme testata e per ogni implementazione
+#* di insieme disgiunto
 
 def test_union_set_performance(sizes):
 
