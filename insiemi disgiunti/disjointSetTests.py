@@ -15,7 +15,7 @@ def test_union_set_performance(sizes):
     euristic_list_times = []
     forest_times = []
 
-    for i in range(len(sizes)):
+    for i in range( len( sizes ) ):
         list_times.append(0)
         euristic_list_times.append(0)
         forest_times.append(0)
@@ -83,22 +83,31 @@ def test_connected_components_performance(graphs):
     list_times = []
     euristic_list_times = []
     forest_times = []
-    
-    for graph in graphs:
+
+    for i in range( len ( graphs ) ):
+        node_number = len( graphs[i].nodes )
+
+        print("number of nodes: ", node_number)
         disjoint_set = ds.DisjointSetLinkedList()
         start_time = time.time()
-        connected_components(graph, disjoint_set)
+        connected_components( graphs[i], disjoint_set )
         end_time = time.time()
+
+        list_times.append( end_time - start_time )
 
         disjoint_set = ds.DisjointSetLinkedList()
         start_time = time.time()
-        connected_components(graph, disjoint_set, True)
+        connected_components( graphs[i], disjoint_set, True )
         end_time = time.time()
+
+        euristic_list_times.append( end_time - start_time )
 
         disjoint_set = ds.DisjointSetForest()
         start_time = time.time()
-        connected_components(graph, disjoint_set)
+        connected_components( graphs[i], disjoint_set )
         end_time = time.time()
+
+        forest_times.append( end_time - start_time )
     
     return {"linked list": list_times, "euristic linked list": euristic_list_times, "disjoint forest": forest_times}
 
@@ -109,8 +118,8 @@ def connected_components(graph, disjoint_set, euristic=False):
         disjoint_set.make_set(node.value)
     
     for edge in graph.edges:
-        node1 = edge[0][0]
-        node2 = edge[0][1]  
+        node1 = edge[0]
+        node2 = edge[1]  
         if euristic:  
             disjoint_set.euristic_union(node1.value, node2.value)
         else:

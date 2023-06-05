@@ -20,10 +20,9 @@ class Plot:
         self.ax.legend()
         plt.show()
 
-    def save_and_show(self, destination='images/plot.png'):
+    def save(self, destination='images/plot.png'):
         self.ax.legend()
         self.fig.savefig(destination, format="png", dpi=300)
-        plt.show()
 
 def plot_results(x, y, labels, title, destination='images/plot.png',
                 xlabel = 'Number of nodes',  ylabel = 'Time (s)'):
@@ -35,4 +34,4 @@ def plot_results(x, y, labels, title, destination='images/plot.png',
     #* per ogni riga di y, ho una curva diversa da disegnare sul grafico (se i = 0, ho una sola curva)
     for i in range( len(y) ):
         plot.add_data(x, y[i], labels[i])
-    plot.save_and_show(destination)
+    plot.save(destination)
