@@ -103,10 +103,8 @@ class DisjointSetForest:
             return
         if node1.set.rank > node2.set.rank:
             node2.set.head = node1
-            self.forests.remove(node2.set)
         else:
             node1.set.head = node2
-            self.forests.remove(node1.set)
             if node1.set.rank == node2.set.rank:
                 node2.set.rank += 1
 

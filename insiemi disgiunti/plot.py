@@ -20,11 +20,11 @@ class Plot:
         self.ax.legend()
         plt.show()
 
-    def save(self, destination='images/plot.png'):
+    def save(self, destination):
         self.ax.legend()
         self.fig.savefig(destination, format="png", dpi=300)
 
-def plot_results(x, y, labels, title, destination='images/plot.png',
+def plot_results(x, y, labels, title, destination='insiemi disgiunti/images/plot.png',
                 xlabel = 'Number of nodes',  ylabel = 'Time (s)'):
     plot = Plot()
     plot.set_title(title)
