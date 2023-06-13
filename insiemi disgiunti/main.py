@@ -4,7 +4,7 @@ import node
 import plot as plt
 import random as rand
 
-node_number = [50, 100, 200, 1000, 5000, 10000]           #* Dimensioni degli insiemi da testare
+node_number = [50, 100, 200, 1000, 5000, 10000, 50000, 100000]           #* Dimensioni degli insiemi da testare
 
 
 #* test sulle performance di unione di insiemi disgiunti
