@@ -65,8 +65,7 @@ class DisjointSetLinkedList:
         else:
             self.union(value2, value1)
         
-
-
+        
 #* implementazione degli insiemi disgiunti con foreste
 class Forest:
     def __init__(self, node):
