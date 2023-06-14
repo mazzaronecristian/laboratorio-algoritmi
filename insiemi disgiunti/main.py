@@ -4,7 +4,7 @@ import node
 import plot as plt
 import random as rand
 
-node_number = [50, 100, 200, 1000, 5000, 10000, 50000, 100000]           #* Dimensioni degli insiemi da testare
+node_number = [50, 100, 200, 1000, 5000, 10000, 20000, 50000, 100000]           #* Dimensioni degli insiemi da testare
 
 
 #* test sulle performance di unione di insiemi disgiunti
@@ -19,7 +19,6 @@ plt.plot_results( node_number, list( times.values() ),
 
 #* test sulle performance di ricerca di componenti connesse
 graphs = []
-#genera un numero casuale compreso tra 1 e 5 usando la libreria random
 
 edge_number = [2 * x for x in node_number]                        #* Numero di archi da testare
 
